@@ -62,11 +62,15 @@ def scrape_genius_lyrics(genius_url):
         if text and not text.lower().startswith("translations"):
             lyrics_lines.append(text)
 
-    lyrics = "\n\n".join(lyrics_lines)
-    print("🎤 Lyrics:\n")
-    print(lyrics)
-    return lyrics
+    # Combine and clean up excessive line breaks
+    raw_lyrics = "\n".join(lyrics_lines)
 
+    # Remove multiple consecutive blank lines
+    cleaned_lyrics = re.sub(r"\n\s*\n+", "\n\n", raw_lyrics).strip()
+
+    print("🎤 Lyrics:\n")
+    print(cleaned_lyrics)
+    return cleaned_lyrics
 
 def get_lyrics(artist, title):
     genius_url = search_song_on_genius(artist, title)
